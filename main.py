@@ -12,7 +12,7 @@ main_list = []
 def main(months, datalist):
     for i in range(months):
 
-        df = pd.read_csv("codewithharry_dataset.csv")
+        df = pd.read_csv("a2motivation_dataset.csv")
         total_rows = df['Subs_Gained'].count() 
         scaler = MinMaxScaler(feature_range=(0,1))
         scaled_data = scaler.fit_transform(df["Subs_Gained"].values.reshape(-1,1))   
