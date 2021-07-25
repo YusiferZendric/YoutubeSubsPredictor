@@ -2,21 +2,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.lib.shape_base import column_stack
 import pandas as pd
+import random
 from pandas.core.frame import DataFrame
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 from tensorflow.python.keras.utils.tf_utils import dataset_is_infinite
-
 main_list = []
 def main(months, datalist):
     for i in range(months):
 
-        df = pd.read_csv("dataset.csv")
+        df = pd.read_csv("a2motivation_dataset.csv")
         total_rows = df['Subs_Gained'].count() 
         scaler = MinMaxScaler(feature_range=(0,1))
         scaled_data = scaler.fit_transform(df["Subs_Gained"].values.reshape(-1,1))   
-        prediction_week = 30
+        prediction_week = 12
 
         x_train = []
         y_train = []
@@ -39,7 +39,7 @@ def main(months, datalist):
         model.add(Dense(units=1))
 
         model.compile(optimizer='adam', loss='mean_squared_error')
-        model.fit(x_train, y_train, epochs=50, batch_size=32)
+        model.fit(x_train, y_train, epochs=500, batch_size=32)
 
         model_inputs = df[len(df) - prediction_week:].values
         model_inputs = model_inputs.reshape(-1,1)
@@ -58,4 +58,8 @@ def main(months, datalist):
         print(i+1)
     return datalist
 
-print(main(4, main_list))
+main = main(4, main_list)
+subs = 0
+for i in main:
+    subs+=i[1]
+print(subs)
